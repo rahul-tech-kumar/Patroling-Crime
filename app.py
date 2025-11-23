@@ -21,11 +21,15 @@ import joblib
 st.set_page_config(layout="wide", page_title="PatrolQ — Crime Explorer")
 
 @st.cache_data(show_spinner=False)
-def load_data(path="sample_df.csv", nrows=None):
-    df = pd.read_csv(path, parse_dates=["Date","Updated On"], low_memory=False)
+def load_data(nrows=None):
+    CSV_URL = "https://your-storage-link/sample_df.csv"   # <-- your uploaded file URL
+    df = pd.read_csv(CSV_URL, parse_dates=["Date", "Updated On"], low_memory=False)
+    
     if nrows:
         df = df.sample(nrows, random_state=42).reset_index(drop=True)
+    
     return df
+
 
 @st.cache_data
 def sample_coords(df, n=20000):
@@ -248,3 +252,4 @@ elif page == "Monitoring":
 # --- Footer ---
 st.sidebar.markdown("---")
 st.sidebar.markdown("PatrolQ — Streamlit app\nBuilt for interactive crime clustering & analysis")
+
